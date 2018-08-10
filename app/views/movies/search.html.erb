@@ -1,14 +1,43 @@
-</br>
-<h5>Résultats pour <%= @movie %></h5>
-</br>
-<% if @movies == [] %>
-    <p>Pas de résultat :( </p>
-<% else  %>
-    <% @movies.each do |movie| %>
-        <p><span style="font-weight:bold"><%= movie.title %></span>, de <%= movie.director %></p> sorti le <%= movie.release %>, sorti le <%= movie.release %>
-        <div class="create-option-thumb-img">
-            <img src="https://image.tmdb.org/t/p/w1280<%= movie.poster_URL %>" alt="Pas d'affiche disponible" width=300px/>
-        </div>
-        </br></br>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+    </ul>
+    
+  </div>
+</nav>
+
+<div class="container">
+  <h2>Bonjour et bienvenue sur votre bibliothèque de film préféré</h2>
+  <%= form_tag('/') do %>
+  <%= text_field_tag "movie" %>
+  <%= submit_tag "Rechercher", class: "btn btn-large btn-primary" %>
+  <% end %>
+</div>
+<% if @info %>
+<table class="table">
+  <thead>
+    <tr>
+      <td>Affiche</td>
+      <td>Titre</td>
+      <td>Réalisateur</td>
+      <td>Date de sortie</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @info.each do |movie| %>
+      <tr>
+        <td><%= image_tag movie[:image] %></td>
+        <td><%= movie[:title] %></td>
+        <td><%= movie[:director] %></td>
+        <td><%= movie[:release_date] %></td>
+      </tr>
     <% end %>
+  </tbody>
+</table>
 <% end %>

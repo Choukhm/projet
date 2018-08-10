@@ -1,44 +1,35 @@
 require 'dotenv'
-require 'themoviedb-api'
+require 'themoviedb'
+class SearchMovie 
+ def initialize(movie)
+    @search = Tmdb::Search.new
+    Tmdb::Api.key("d9f8e7b2d0bf04912719c8a614d4efe2")
+    Tmdb::Api.language("fr")
+    @search.resource('movie') # determines type of resource
+    @search.query(movie) # the query to search against
+    @result = @search.fetch # makes request
+    puts @result[19]
+    puts @result.size
+  end
 
-Dotenv.load
 
-class SearchMovie
-    def results(movie)
-        Tmdb::Api.key(ENV["TMDB_KEY"])
-        
-        movies_array = []                                         
-
-        temp = Tmdb::Search.movie(movie, page: 1)["results"]        
-        for i in 0..(temp.count - 1)
-            hash_temp = {}                                         
-            temp2 = Tmdb::Movie.detail(temp[i]["id"])             
-            hash_temp["title"] = temp2["title"]                     
-            if temp2["status"] == "Planned"                       
-                hash_temp["release"] = "?"
-                hash_temp["director"] = "?"
-            else
-                hash_temp["release"] = temp2["release_date"]
-                if temp2["production_companies"] == []             
-                    hash_temp["director"] = "?"
-                else
-                    if temp2["imdb_id"] == nil
-                        hash_temp["director"] = "?"
-                    else
-                        hash_temp["director"] = Tmdb::Movie.director(temp[i]["id"])[0]["name"]      
-                    end
-                end
-            end
-            if temp2["poster_path"] == nil                         
-                hash_temp["poster_URL"] = ""
-            else
-                hash_temp["poster_URL"] = temp2["poster_path"]
-            end
-            movies_array << hash_temp                              
-        end
-
-        movies_array.each do |value|                        
-            Movie.create(title: value["title"], release: value["release"], director: value["director"], poster_URL: value["poster_URL"])
-        end
+  def perform
+    @info = []
+    i = 0
+    configuration = Tmdb::Configuration.new
+    while i < 20 do
+      if @result[i]
+        h = {}
+        h[:id] = @result[i]["id"]
+        h[:title] = @result[i]["title"]
+        h[:release_date] = @result[i]["release_date"]
+        h[:image] = "#{configuration.base_url}/w45#{@result[i]["poster_path"]}"
+        h[:director] = Tmdb::Movie.crew(@result[i]["id"])[0]["name"]
+        @info << h
+      end
+      i += 1
     end
-end
+    puts @info
+    return @info
+  end
+end 

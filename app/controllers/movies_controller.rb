@@ -1,11 +1,7 @@
 class MoviesController < ApplicationController
-    def index
-        Movie.delete_all
+   def search
+    if params[:movie]
+      @info = SearchMovie.new(params[:movie]).perform
     end
-    
-    def search
-        @movie = params[:movie][:movie_name]
-        SearchMovie.new.results(@movie)
-        @movies = Movie.all
-    end
+  end
 end
