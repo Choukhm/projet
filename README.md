@@ -1,24 +1,21 @@
-## Créateurs
+# Projet
 
-Marion Velard, Bastien Willet
 
-## Synopsis
+Pour lancer le projet, tu dois récuperer le repo github soit en "zip" soit en le clonant.
 
-On en a bavé mais putain il est là, le nouveau allociné ! Et sans pubs !
+Ensuite ouvre ton terminal et place toi dans le dossier telechargé.
 
-## Comment accéder au programme sur Heroku ?
+Enfin, rentre ces lignes de code dans le terminal :
 
-Lien -> [Movie Searcher](https://moviesearcherlol.herokuapp.com/)<br />
+``` 
+bundle install 
+rails db:migrate
+rails s
+```
 
-## Comment accéder au programme en local ?
+Tu auras besoin d'une clé API de TheMovieDataBase que tu rentreras dans un fichier .env
 
-1. Se positionner sur le dossier avec le terminal
-2. Lancer $ bundle install
-3. Lancer $ rails db:migrate
-4. Lancer $ rails server
-5. Ajouter un ficher .env à la racine qui contient une TMDB_KEY="-------" (je te file la mienne sur le slack si t'es gentil)
-6. Se rendre sur localhost:3000 avec un navigateur
+C'est bon ! Tu peux acceder au site <a href="http://localhost:3000/">avec ce lien!</a>
 
-## Gems ruby utilisées
+Sinon tu peux utiliser <a href="https://git.heroku.com/jeveuxdodo.git">Heroku!</a>
 
-voir Gemfile
